@@ -18,5 +18,6 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Lingoz Running on port ${port}`);
+    console.log(`Lingoz
+     Running on port ${port}`);
 });
