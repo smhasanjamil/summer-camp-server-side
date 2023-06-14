@@ -34,7 +34,13 @@ async function run() {
 
         const usersCollection = client.db("lingoz").collection("users");
 
-        // Users
+        // Get All user
+        app.get('/users', async (req, res) => {
+            const result = await usersCollection.find().toArray();
+            res.send(result);
+        })
+
+        // Users insert to db
         app.post('/users', async (req, res) => {
             const user = req.body;
 
