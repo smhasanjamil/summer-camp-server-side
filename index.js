@@ -88,12 +88,40 @@ async function run() {
             const email = req.params.email;
             const query = { email: email };
             const result = await usersCollection.findOne(query);
+
+            if (!result) {
+                res.status(404).json({ error: 'User not found' });
+                return;
+            }
+
             console.log(result);
             res.send(result);
         })
 
 
+        // app.get('/users/:email', async (req, res) => {
+        //     const email = req.params.email;
+        //     const query = { email: email };
+        //     const result = await usersCollection.findOne(query);
 
+        //     if (!result) {
+        //         res.status(404).json({ error: 'User not found' });
+        //         return;
+        //     }
+
+        //     res.json(result);
+        // });
+
+
+
+        // Get all Instructors
+
+        app.get('/instructors', async (req, res) => {
+            const query = {role: "instructor"};
+            const cursor = usersCollection.find(query);
+            const instructors = await cursor.toArray();
+            res.send(instructors);
+        })
 
 
 
