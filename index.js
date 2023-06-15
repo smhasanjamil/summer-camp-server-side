@@ -69,8 +69,8 @@ async function run() {
         })
 
 
-         // Make user Instructor
-         app.patch('/users/instructor/:id', async (req, res) => {
+        // Make user Instructor
+        app.patch('/users/instructor/:id', async (req, res) => {
             const id = req.params.id;
             const filter = { _id: new ObjectId(id) };
             const updateDoc = {
@@ -80,7 +80,19 @@ async function run() {
             };
             const result = await usersCollection.updateOne(filter, updateDoc);
             res.send(result);
+        });
+
+
+        // Get user role
+        app.get('/users/:email', async (req, res) => {
+            const email = req.params.email;
+            const query = { email: email };
+            const result = await usersCollection.findOne(query);
+            console.log(result);
+            res.send(result);
         })
+
+
 
 
 
@@ -114,6 +126,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Lingoz
-     Running on port ${port}`);
+    console.log(`Lingoz Running on port ${port}`);
 });
