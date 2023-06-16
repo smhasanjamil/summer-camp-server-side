@@ -33,6 +33,9 @@ async function run() {
 
 
         const usersCollection = client.db("lingoz").collection("users");
+        const classesCollection = client.db("lingoz").collection("classes");
+
+
 
         // Get All user
         app.get('/users', async (req, res) => {
@@ -117,14 +120,24 @@ async function run() {
         // Get all Instructors
 
         app.get('/instructors', async (req, res) => {
-            const query = {role: "instructor"};
+            const query = { role: "instructor" };
             const cursor = usersCollection.find(query);
             const instructors = await cursor.toArray();
             res.send(instructors);
-        })
+        });
 
 
-
+        // add classes to db
+        app.post('/classes', async (req, res) => {
+            const classes = req.body;
+            const result = await classesCollection.insertOne(classes);
+            res.send(result);
+            // console.log(classes);
+            // const query = { role: "instructor" };
+            // const cursor = usersCollection.find(query);
+            // const instructors = await cursor.toArray();
+            // res.send(instructors);
+        });
 
 
 
