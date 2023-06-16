@@ -118,12 +118,17 @@ async function run() {
 
 
         // Get all Instructors
-
         app.get('/instructors', async (req, res) => {
             const query = { role: "instructor" };
             const cursor = usersCollection.find(query);
             const instructors = await cursor.toArray();
             res.send(instructors);
+        });
+
+        // Get all Classes
+        app.get('/classes', async (req, res) => {
+            const result = await classesCollection.find().toArray();
+            res.send(result);
         });
 
 
