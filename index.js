@@ -34,6 +34,7 @@ async function run() {
 
         const usersCollection = client.db("lingoz").collection("users");
         const classesCollection = client.db("lingoz").collection("classes");
+        const cartsCollection = client.db("lingoz").collection("carts");
 
 
 
@@ -132,6 +133,26 @@ async function run() {
         });
 
 
+        // Get all Approved classes
+        app.get('/classes/status/approved', async (req, res) => {
+            const query = { status: "approved" };
+            const cursor = classesCollection.find(query).sort({ availableSeat: 1 });
+            const result = await cursor.toArray();
+            res.send(result);
+        });
+
+        // Get cart items
+        app.get('/carts', async (req, res) => {
+            const email = req.query.email;
+            if (!email) {
+                res.send([]);
+            }
+            const query = { email: email };
+            const result = await cartsCollection.find(query).toArray();
+            res.send(result);
+        });
+
+
         // add classes to db
         app.post('/classes', async (req, res) => {
             const classes = req.body;
@@ -145,13 +166,19 @@ async function run() {
         });
 
 
-        // Get all Approved classes
-        app.get('/classes/status/approved', async (req, res) => {
-            const query = { status: "approved" };
-            const cursor = classesCollection.find(query).sort({availableSeat:1});
-            const result = await cursor.toArray();
+        // Students Cart Collection
+        app.post('/carts', async (req, res) => {
+            const classes = req.body;
+            console.log(classes);
+            const result = await cartsCollection.insertOne(classes);
             res.send(result);
+
         });
+
+
+
+
+
 
 
         // Update status Classes
