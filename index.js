@@ -159,6 +159,20 @@ async function run() {
             res.send(result);
         });
 
+        // Deny status Classes
+        app.patch('/classes/status/denied/:id', async (req, res) => {
+            const id = req.params.id;
+            // const status = req.body;
+            const filter = { _id: new ObjectId(id) };
+            const updateDoc = {
+                $set: {
+                    status: 'denied',
+                },
+            };
+            const result = await classesCollection.updateOne(filter, updateDoc);
+            res.send(result);
+        });
+
 
 
 
