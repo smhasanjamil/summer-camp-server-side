@@ -145,6 +145,15 @@ async function run() {
         });
 
 
+        // Get all Approved classes
+        app.get('/classes/status/approved', async (req, res) => {
+            const query = { status: "approved" };
+            const cursor = classesCollection.find(query).sort({availableSeat:1});
+            const result = await cursor.toArray();
+            res.send(result);
+        });
+
+
         // Update status Classes
         app.patch('/classes/status/approved/:id', async (req, res) => {
             const id = req.params.id;
@@ -171,6 +180,36 @@ async function run() {
             };
             const result = await classesCollection.updateOne(filter, updateDoc);
             res.send(result);
+        });
+
+        // pending status Classes
+        app.patch('/classes/status/pending/:id', async (req, res) => {
+            const id = req.params.id;
+            // const status = req.body;
+            const filter = { _id: new ObjectId(id) };
+            const updateDoc = {
+                $set: {
+                    status: 'pending',
+                },
+            };
+            const result = await classesCollection.updateOne(filter, updateDoc);
+            res.send(result);
+        });
+
+
+        // Cllaa status feedback
+        app.patch('/classes/status/feedback/:id', async (req, res) => {
+            const id = req.params.id;
+            const status = req.body;
+            console.log(status);
+            // const filter = { _id: new ObjectId(id) };
+            // const updateDoc = {
+            //     $set: {
+            //         status: status,
+            //     },
+            // };
+            // const result = await classesCollection.updateOne(filter, updateDoc);
+            // res.send(result);
         });
 
 
