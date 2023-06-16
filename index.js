@@ -145,6 +145,20 @@ async function run() {
         });
 
 
+        // Update status Classes
+        app.patch('/classes/status/approved/:id', async (req, res) => {
+            const id = req.params.id;
+            // const status = req.body;
+            const filter = { _id: new ObjectId(id) };
+            const updateDoc = {
+                $set: {
+                    status: 'approved',
+                },
+            };
+            const result = await classesCollection.updateOne(filter, updateDoc);
+            res.send(result);
+        });
+
 
 
 
